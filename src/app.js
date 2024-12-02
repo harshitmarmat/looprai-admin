@@ -9,22 +9,11 @@ require('dotenv').config();
 
 const app = express();
 app.use(bodyParser.json());
-const allowedOrigins = [
-  process.env.FRONTEND_URL,  
-  /\.vercel\.app$/,          
-  /\.railway\.app$/,        
-];
-
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.some(pattern => origin.match(pattern))) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS')); 
-    }
-  },
+app.use(cors({
+  origin: '*',
   credentials: true,
-};
+}));
+
 app.use('/api/transactions', transactionRoutes);
 
 
